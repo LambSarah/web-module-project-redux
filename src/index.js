@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { createStore } from 'redux';
-import { Provider} from 'react-redux';
+import { Provider } from 'react-redux';
 
 import reducer from './reducers';
 
@@ -11,7 +11,9 @@ import './index.css';
 
 ReactDOM.render(
   <Router>
-      <App />
+    <Provider>
+      <App store={createStore} />
+    </Provider>
   </Router>,
   document.getElementById('root')
 );
