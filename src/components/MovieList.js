@@ -3,15 +3,14 @@ import { connect } from 'react-redux'
 
 import MovieListItem from './MovieListItem';
 import MovieFooter from './MovieFooter';
+// import { deleteMovie } from '../actions/movieActions.js'
+//import reducer, { initialState } from '../reducers/movieReducer.js'
 
-const MovieList = (props) => {
-    const movies = [];
+const MovieList = props => {
+    //const [movies, setMovies] = useState([])
 
-    const mapStateToProps = (state) => {
-        return {
-            movies: state.movies,
-        }
-    }
+    //const [state, dispatch] = useReducer(reducer, initialState);
+
     return (
         <div className="col">
             <table className="table table-striped table-hover">
@@ -27,14 +26,26 @@ const MovieList = (props) => {
 
                 <tbody>
                     {
-                        movies.map(movie => <MovieListItem key={movie.id} movie={movie} />)
+                        props.movies.map(movie => <MovieListItem key={movie.id} movie={movie} />)
                     }
                 </tbody>
             </table>
 
-            <MovieFooter totalMovies={movies.length} />
+            <MovieFooter totalMovies={props.movies.length} />
         </div>
     );
 }
 
-export default connect(null, {})(MovieList);
+const mapStateToProps = (state) => {
+    return {
+        movies: state.movies,
+    }
+}
+
+// const mapDispatchToProps = dispatch => {
+//     return {
+//         dispatch
+//     }
+// }
+
+export default connect(mapStateToProps, {})(MovieList);
