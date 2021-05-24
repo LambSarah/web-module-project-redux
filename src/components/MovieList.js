@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux'
 
 import MovieListItem from './MovieListItem';
@@ -7,7 +7,8 @@ import MovieFooter from './MovieFooter';
 //import reducer, { initialState } from '../reducers/movieReducer.js'
 
 const MovieList = props => {
-    //const [movies, setMovies] = useState([])
+    const [movies, setMovies] = useState(props.movies)
+
 
     //const [state, dispatch] = useReducer(reducer, initialState);
 
@@ -26,7 +27,7 @@ const MovieList = props => {
 
                 <tbody>
                     {
-                        props.movies.map(movie => <MovieListItem key={movie.id} movie={movie} />)
+                        movies.map(movie => <MovieListItem key={movie.id} movie={movie} />)
                     }
                 </tbody>
             </table>
@@ -38,14 +39,8 @@ const MovieList = props => {
 
 const mapStateToProps = (state) => {
     return {
-        movies: state.movies,
+        movies: state.movies.movies,
     }
 }
-
-// const mapDispatchToProps = dispatch => {
-//     return {
-//         dispatch
-//     }
-// }
 
 export default connect(mapStateToProps, {})(MovieList);

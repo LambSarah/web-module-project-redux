@@ -51,6 +51,7 @@ const App = props => {
 const mapStateToProps = (state) => {
   return {
     movies: state.movies,
+    favorites: state.favorites
 
   }
 }

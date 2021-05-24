@@ -9,10 +9,10 @@ export const initialState = {
 const reducer = (state = initialState, action) => {
     switch (action.type) {
         case ADD_MOVIE:
-
+            const newMovie = action.payload
             return {
                 ...state,
-                movies: [...state.movies, action.payload]
+                movies: [...state.movies, newMovie]
             }
         case DELETE_MOVIE:
             return {
