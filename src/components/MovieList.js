@@ -3,14 +3,11 @@ import { connect } from 'react-redux'
 
 import MovieListItem from './MovieListItem';
 import MovieFooter from './MovieFooter';
-// import { deleteMovie } from '../actions/movieActions.js'
+//import { deleteMovie } from '../actions/movieActions.js'
 //import reducer, { initialState } from '../reducers/movieReducer.js'
 
 const MovieList = props => {
     const [movies, setMovies] = useState(props.movies)
-
-
-    //const [state, dispatch] = useReducer(reducer, initialState);
 
     return (
         <div className="col">

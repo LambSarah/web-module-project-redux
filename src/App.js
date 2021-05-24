@@ -12,7 +12,7 @@ import AddMovieForm from './components/AddMovieForm';
 import FavoriteMovieList from './components/FavoriteMovieList';
 
 const App = props => {
-  const displayFavorites = true;
+  const displayFavorites = props.displayFavorites;
 
   return (
     <div>
@@ -50,16 +50,10 @@ const App = props => {
 
 const mapStateToProps = (state) => {
   return {
-    movies: state.movies,
-    favorites: state.favorites
-
+    movies: state.movies.movies,
+    favorites: state.favorites,
+    displayFavorites: state.favorites.displayFavorites
   }
 }
 
-const mapDispatchToProps = dispatch => {
-  return {
-    dispatch
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default connect(mapStateToProps, {})(App);
