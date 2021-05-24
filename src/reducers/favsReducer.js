@@ -17,6 +17,7 @@ const reducer = (state = initialState, action) => {
             }
         case ADD_FAV:
             const newFav = action.payload
+
             return {
                 ...state,
                 favorites: [...state.favorites, newFav]

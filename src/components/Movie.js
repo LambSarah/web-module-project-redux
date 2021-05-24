@@ -3,7 +3,7 @@ import React from 'react'
 import { useParams, useHistory } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { deleteMovie } from '../actions/movieActions'
-import { addFav } from '../actions/favsActions'
+import { addFav, removeFav } from '../actions/favsActions'
 
 import './Movie.css'
 
@@ -18,13 +18,22 @@ const Movie = props => {
 
     const handleDelete = id => {
         props.deleteMovie(id)
+        props.removeFav(id)
         console.log('delete button clicked', movie.id)
+        console.log('also removing fav')
         push('/movies')
     }
 
     const handleAddFav = movie => {
-        props.addFav(movie);
-        console.log('added Favorite', movie)
+        const alreadyInFavs = props.favorites.some(item => item.id === movie.id);
+        if (!alreadyInFavs) {
+            props.addFav(movie);
+            console.log('added Favorite', movie)
+        } else {
+            console.log('this movie already in favorites')
+        }
+
+
         push(`/movie/${id}`)
     }
 
@@ -58,7 +67,7 @@ const Movie = props => {
 
                         <section>
                             <form>
-                                <div className={displayFavorites ? 'hidden' : 'visible'}>
+                                <div className={displayFavorites ? 'visible' : 'hidden'}>
                                     <span
                                         onClick={() => { handleAddFav(movie) }}
                                         className="m-2 btn btn-dark"
@@ -83,4 +92,4 @@ const mapStateToProps = (state) => {
         displayFavorites: state.favorites.displayFavorites
     }
 }
-export default connect(mapStateToProps, { deleteMovie, addFav })(Movie)
+export default connect(mapStateToProps, { deleteMovie, addFav, removeFav })(Movie)
