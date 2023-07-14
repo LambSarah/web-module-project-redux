@@ -1,34 +1,43 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { connect } from 'react-redux'
 
 import MovieListItem from './MovieListItem';
 import MovieFooter from './MovieFooter';
+//import { deleteMovie } from '../actions/movieActions.js'
+//import reducer, { initialState } from '../reducers/movieReducer.js'
 
-const MovieList = (props)=> {
-    const movies = [];
+const MovieList = props => {
+    const [movies, setMovies] = useState(props.movies)
 
     return (
         <div className="col">
             <table className="table table-striped table-hover">
                 <thead>
-                <tr>
-                    <th>Title</th>
-                    <th>Director</th>
-                    <th>Genre</th>
-                    <th>Metascore</th>
-                    <th></th>
-                </tr>
+                    <tr>
+                        <th>Title</th>
+                        <th>Director</th>
+                        <th>Genre</th>
+                        <th>Metascore</th>
+                        <th></th>
+                    </tr>
                 </thead>
 
                 <tbody>
                     {
-                        movies.map(movie=><MovieListItem key={movie.id} movie={movie}/>)
+                        movies.map(movie => <MovieListItem key={movie.id} movie={movie} />)
                     }
                 </tbody>
             </table>
-            
-            <MovieFooter totalMovies={movies.length}/>
+
+            <MovieFooter totalMovies={props.movies.length} />
         </div>
     );
 }
 
-export default MovieList;
+const mapStateToProps = (state) => {
+    return {
+        movies: state.movies.movies,
+    }
+}
+
+export default connect(mapStateToProps, {})(MovieList);

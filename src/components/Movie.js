@@ -1,17 +1,46 @@
-import React from 'react';
-import { useParams, useHistory } from 'react-router-dom';
+import React from 'react'
 
-const Movie = (props) => {
-    const { id } = useParams();
-    const { push } = useHistory();
+import { useParams, useHistory } from 'react-router-dom'
+import { connect } from 'react-redux'
+import { deleteMovie } from '../actions/movieActions'
+import { addFav, removeFav } from '../actions/favsActions'
 
-    const movies = [];
-    const movie = movies.find(movie=>movie.id===Number(id));
-    
-    return(<div className="modal-page col">
+import './Movie.css'
+
+const Movie = props => {
+    const { id } = useParams()
+    const { push } = useHistory()
+
+    const movies = props.movies;
+    const movie = movies.find(movie => movie.id === Number(id));
+
+    const displayFavorites = props.displayFavorites;
+
+    const handleDelete = id => {
+        props.deleteMovie(id)
+        props.removeFav(id)
+        console.log('delete button clicked', movie.id)
+        console.log('also removing fav')
+        push('/movies')
+    }
+
+    const handleAddFav = movie => {
+        const alreadyInFavs = props.favorites.some(item => item.id === movie.id);
+        if (!alreadyInFavs) {
+            props.addFav(movie);
+            console.log('added Favorite', movie)
+        } else {
+            console.log('this movie already in favorites')
+        }
+
+
+        push(`/movie/${id}`)
+    }
+
+    return (<div className="modal-page col">
         <div className="modal-dialog">
             <div className="modal-content">
-                <div className="modal-header">						
+                <div className="modal-header">
                     <h4 className="modal-title">{movie.title} Details</h4>
                 </div>
                 <div className="modal-body">
@@ -35,16 +64,32 @@ const Movie = (props) => {
                                 <p><strong>{movie.description}</strong></p>
                             </div>
                         </section>
-                        
+
                         <section>
-                            <span className="m-2 btn btn-dark">Favorite</span>
-                            <span className="delete"><input type="button" className="m-2 btn btn-danger" value="Delete"/></span>
+                            <form>
+                                <div className={displayFavorites ? 'visible' : 'hidden'}>
+                                    <span
+                                        onClick={() => { handleAddFav(movie) }}
+                                        className="m-2 btn btn-dark"
+                                    >
+                                        Favorite
+                                </span>
+                                </div>
+                                <span className="delete"><input type="button" className="m-2 btn btn-danger" value="Delete" onClick={() => { handleDelete(movie.id) }} /></span>
+                            </form>
                         </section>
                     </div>
                 </div>
             </div>
         </div>
-    </div>);
+    </div >);
 }
 
-export default Movie;
+const mapStateToProps = (state) => {
+    return {
+        movies: state.movies.movies,
+        favorites: state.favorites.favorites,
+        displayFavorites: state.favorites.displayFavorites
+    }
+}
+export default connect(mapStateToProps, { deleteMovie, addFav, removeFav })(Movie)
